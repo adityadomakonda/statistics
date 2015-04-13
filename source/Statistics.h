@@ -14,14 +14,6 @@ using namespace std::tr1;
 class Relation_info;
 typedef unsigned long long big_number;
 
-
-typedef unordered_map < string, big_number > Str_to_ULL;
-typedef unordered_map < string, vector <string> > Str_to_Strs;
-typedef unordered_map < string, string > Str_to_Str;
-typedef unordered_map < string, double > Str_to_Dbl;
-typedef unordered_map < string, Relation_info > Str_to_Ri;
-
-
 class Statistics
 {
 private:
