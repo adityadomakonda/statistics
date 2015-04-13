@@ -12,6 +12,7 @@ using namespace std;
 using namespace std::tr1;
 
 class Statistics;
+class Relation_info;
 typedef unsigned long long big_number;
 typedef unordered_map < string, Relation_info > str_to_relInfo;
 
