@@ -1,48 +1,34 @@
 #ifndef STATISTICS_
 #define STATISTICS_
 #include "ParseTree.h"
-#include <string>
-#include <vector>
-#include <fstream>
 #include <tr1/unordered_map>
 #include <tr1/unordered_set>
+#include <fstream>
+#include <string>
+#include <vector>
+
 
 using namespace std;
 using namespace std::tr1;
 
-class RelInfo;
-typedef unsigned long long tcnt;
-typedef unordered_map < string, tcnt > Str_to_ULL;
+class Relation_info;
+typedef unsigned long long big_number;
+
+
+typedef unordered_map < string, big_number > Str_to_ULL;
 typedef unordered_map < string, vector <string> > Str_to_Strs;
 typedef unordered_map < string, string > Str_to_Str;
 typedef unordered_map < string, double > Str_to_Dbl;
-typedef unordered_map < string, RelInfo > Str_to_Ri;
-class Statistics;
+typedef unordered_map < string, Relation_info > Str_to_Ri;
 
-class RelInfo
-{
-private:
-	tcnt numTuples;
-	Str_to_ULL attrInfo;
-	friend class Statistics;
-	string relName;
-public:
-	RelInfo(string S, tcnt T);
-	RelInfo(string, RelInfo &, Statistics *);
-	RelInfo();
-	~RelInfo();
-	void AddAttr(string aName, tcnt count);
-	friend ostream& operator<<(ostream &, const RelInfo &);
-	friend istream& operator>>(istream &, RelInfo &);
-};
 
 class Statistics
 {
 private:
-	Str_to_Ri RelMap;
-	Str_to_Strs JoinMap;
-	Str_to_Str AttRelMap;
-	friend class RelInfo;
+	unordered_map < string, Relation_info > relation_map;
+	unordered_map < string, vector <string> > join_map;
+	unordered_map < string, string > att_rel_map;
+	friend class Relation_info;
 
 	void CheckRelNameParseTree ( struct AndList *, char **, int );
 public:
@@ -65,5 +51,25 @@ public:
 	double Estimate(struct AndList *parseTree, char **relNames, int numToJoin);
 	double Estimate(struct AndList *parseTree, char **relNames, int numToJoin, bool apply);
 };
+
+
+class Relation_info
+{
+private:
+	friend class Statistics;
+	big_number num_tuples;
+	unordered_map < string, big_number > attribute_information;	
+	string relation_name;
+
+public:
+	Relation_info(string rel_name_in, big_number tuple_count);
+	Relation_info(string rel_name_in, Relation_info &rel_info_in, Statistics *Stat_in);
+	Relation_info();
+	~Relation_info();
+	void AddAttr(string attribute_name, big_number count_distinct);
+	friend ostream& operator<<(ostream &os, const Relation_info &rel_info_in);
+	friend istream& operator>>(ostream &is, const Relation_info &rel_info_in);
+};
+
 
 #endif
