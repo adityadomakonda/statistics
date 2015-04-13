@@ -13,6 +13,7 @@ using namespace std::tr1;
 
 class Statistics;
 typedef unsigned long long big_number;
+typedef unordered_map < string, Relation_info > str_to_relInfo;
 
 
 class Relation_info
@@ -37,10 +38,11 @@ public:
 class Statistics
 {
 private:
-	unordered_map < string, Relation_info > relation_map;
+	friend class Relation_info;
+	str_to_relInfo relation_map;
 	unordered_map < string, vector <string> > join_map;
 	unordered_map < string, string > att_rel_map;
-	friend class Relation_info;
+	
 
 	void CheckRelNameParseTree ( struct AndList *, char **, int );
 public:
