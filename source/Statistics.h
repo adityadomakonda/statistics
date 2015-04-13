@@ -11,10 +11,14 @@
 using namespace std;
 using namespace std::tr1;
 
-class Statistics;
 class Relation_info;
 typedef unsigned long long big_number;
-typedef unordered_map < string, Relation_info > str_to_relInfo;
+typedef unordered_map < string, big_number > str_to_bign_number_map;
+typedef unordered_map < string, vector <string> > str_to_strs_map;
+typedef unordered_map < string, string > str_to_str_map;
+typedef unordered_map < string, double > str_to_double;
+typedef unordered_map < string, Relation_info > str_to_rel_info_map;
+class Statistics;
 
 
 class Relation_info
@@ -40,9 +44,9 @@ class Statistics
 {
 private:
 	friend class Relation_info;
-	str_to_relInfo relation_map;
-	unordered_map < string, vector <string> > join_map;
-	unordered_map < string, string > att_rel_map;
+	str_to_rel_info_map relation_map;
+	str_to_strs_map join_map;
+	str_to_str_map att_rel_map;
 	
 
 	void CheckRelNameParseTree ( struct AndList *, char **, int );
